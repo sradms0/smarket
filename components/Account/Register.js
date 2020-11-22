@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableHighlight, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Register() {
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [creditCardNumber, setCreditCardNumber] = useState('');
-  const [creditCardZipCode, setCreditCardZipCode] = useState('');
-  const [creditCardCVV, setCreditCardCVV] = useState('');
+export default function Register({ context }) {
+  const [emailAddress, setEmailAddress] = useState('a@b.com');
+  const [password, setPassword] = useState('password');
+  const [confirmPassword, setConfirmPassword] = useState('password');
+  const [creditCardNumber, setCreditCardNumber] = useState('1111111111111');
+  const [creditCardZipCode, setCreditCardZipCode] = useState('11111');
+  const [creditCardCVV, setCreditCardCVV] = useState('111');
   const [modalOn, setModalOn] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
 
@@ -19,35 +18,17 @@ export default function Register() {
   const onCreditCardZipCodeChange = text => setCreditCardZipCode(text);
   const onCreditCardCVVChange = text => setCreditCardCVV(text);
 
-  const validators = [
-    {key: 'email', f: () => !/\w+@\w+\.\w{2,3}/.test(emailAddress) ? 'valid email required' : null},
-    {key: 'password', f: () => password.length < 5 ? 'must be at least 5 characters' : null},
-    {key: 'password confirmation', f: () => confirmPassword !== password ? 'passwords do not match' : null},
-    {key: 'cc-num', f: () => !/^(\d{13,16})$/.test(creditCardNumber) ? 'number between 13 and 16 required' : null},
-    {key: 'cc-zip', f: () => !/^(\d{5})$/.test(creditCardZipCode) ? '5 digit zip code required' : null},
-    {key: 'cc-zip', f: () => !/^(\d{3})$/.test(creditCardCVV) ? '3 digit number required' : null}
-  ]
-
-  const validate = () => validators.map(v => ({ field: v.key,  status: v.f() })).filter(res => res.status);
-
-  const createAccount = async () => {
-    const errs = validate();
+  const register = async () => {
     let status;
-    if (errs.length) 
-      status = errs.reduce((acc, curr) => acc + `${curr.field}: ${curr.status}\n\n`, '');
-    else {
-      const user = {
-        emailAddress, password, 
-        creditCard: { number: creditCardNumber, zip: creditCardZipCode, cvv: creditCardCVV }
-      };
-      status = `account for ${emailAddress} successfully created`;
-      try {
-        const duplicate = await AsyncStorage.getItem(emailAddress);
-        if (duplicate) throw new Error(`${emailAddress} already exists...`);
-        await AsyncStorage.setItem(emailAddress, JSON.stringify(user));
-      } catch(err) {
-        status = err.message;
-      }
+    const user = {
+      emailAddress, password, confirmPassword,
+      creditCard: { number: creditCardNumber, zip: creditCardZipCode, cvv: creditCardCVV }
+    };
+    try {
+      const res = await context.actions.register(user);
+      status = res.message;
+    } catch(err) {
+      status = err.message;
     }
     setSubmissionMessage(status);
     setModalOn(true);
@@ -106,7 +87,7 @@ export default function Register() {
 
       <TouchableOpacity 
         style={styles.button}
-        onPress={createAccount}
+        onPress={register}
       >
         <Text>Register</Text>
       </TouchableOpacity>
@@ -222,5 +203,4 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: "center"
   }
-
 });

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableHighlight, View } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Login() {
+export default function Login({ context }) {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [modalOn, setModalOn] = useState(false);
@@ -11,15 +10,11 @@ export default function Login() {
   const onEmailAddressChange = text => setEmailAddress(text);
   const onPasswordChange = text => setPassword(text);
 
-  const getUser = async () => {
+  const login = async () => {
     let status;
     try {
-      const data = await AsyncStorage.getItem(emailAddress), user = JSON.parse(data);
-      if (user && user.password === password)
-        // TODO: set authd user 
-        status = 'login successful!';
-      else
-        status = 'login failed...';
+      const res = await context.actions.login({ emailAddress, password });
+      status = res.message;
     } catch(err) {
       status = err.message;
     }
@@ -49,7 +44,7 @@ export default function Login() {
       </View>
       <TouchableOpacity 
         style={styles.button}
-        onPress={getUser}
+        onPress={login}
       >
         <Text>Login</Text>
       </TouchableOpacity>
