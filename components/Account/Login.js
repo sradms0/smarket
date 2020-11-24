@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableHighlight, View } from 'react-native';
 
-export default function Login({ context }) {
+export default function Login({ context, navigation }) {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [modalOn, setModalOn] = useState(false);
@@ -14,6 +14,9 @@ export default function Login({ context }) {
     let status;
     try {
       const res = await context.actions.login({ emailAddress, password });
+      if (res.status === 200){
+        navigation.navigate("Store Picker");
+      }
       status = res.message;
     } catch(err) {
       status = err.message;
