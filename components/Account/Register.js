@@ -36,8 +36,6 @@ export default function Register({ context }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.mainHeader}>Welcome to Smarket!</Text>
-
       <View style={styles.sectionContainer}>
         <View style={styles.sectionLabel}>
           <Text style={styles.sectionHeader}>credentials</Text>
@@ -129,7 +127,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: '5%'
   },
   sectionContainer: {
     marginBottom: 20,
@@ -169,6 +166,7 @@ const styles = StyleSheet.create({
     borderRadius:10,
     backgroundColor:'#a6d1ae',
     padding: 10,
+    marginBottom: 5
   },
   modalCenteredView: {
     flex: 1,
