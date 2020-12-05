@@ -37,22 +37,26 @@ export default function Register({ context }) {
   return (
     <View style={styles.container}>
       <Text style={styles.mainHeader}>Welcome to Smarket!</Text>
+
       <View style={styles.sectionContainer}>
         <View style={styles.sectionLabel}>
           <Text style={styles.sectionHeader}>credentials</Text>
         </View>
+
         <Text style={styles.text}>email address</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={text => onEmailAddressChange(text)}
           value={emailAddress}
         />
+
         <Text style={styles.text}>password</Text>
         <TextInput
           style={styles.textInput}
           onChangeText={text => onPasswordChange(text)}
           value={password}
         />
+
         <Text style={styles.text}>confirm password:</Text>
         <TextInput
           style={styles.textInput}
@@ -128,14 +132,13 @@ const styles = StyleSheet.create({
   },
   sectionContainer: {
     flex: 1,
-    marginTop: '10%',
-    marginBottom: '10%',
+    marginBottom: 20,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   sectionLabel: {
-    margin: 20
+    marginTop: 20
   },
   mainHeader: {
     marginTop: '5%',
@@ -165,7 +168,8 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderRadius:10,
     backgroundColor:'#a6d1ae',
-    padding: 10
+    padding: 10,
+    marginBottom: 10
   },
   modalCenteredView: {
     flex: 1,
