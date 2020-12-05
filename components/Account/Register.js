@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Modal, StyleSheet, Text, TextInput, TouchableOpacity, TouchableHighlight, View } from 'react-native';
 
 export default function Register({ context }) {
-  const [emailAddress, setEmailAddress] = useState('a@b.com');
-  const [password, setPassword] = useState('password');
-  const [confirmPassword, setConfirmPassword] = useState('password');
-  const [creditCardNumber, setCreditCardNumber] = useState('1111111111111');
-  const [creditCardZipCode, setCreditCardZipCode] = useState('11111');
-  const [creditCardCVV, setCreditCardCVV] = useState('111');
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [creditCardNumber, setCreditCardNumber] = useState('');
+  const [creditCardZipCode, setCreditCardZipCode] = useState('');
+  const [creditCardCVV, setCreditCardCVV] = useState('');
   const [modalOn, setModalOn] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState('');
 
