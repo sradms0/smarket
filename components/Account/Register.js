@@ -129,9 +129,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: '5%'
   },
   sectionContainer: {
-    flex: 1,
     marginBottom: 20,
     backgroundColor: '#fff',
     alignItems: 'center',
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     marginTop: 20
   },
   mainHeader: {
-    marginTop: '5%',
+    marginTop: 50,
     fontSize: 30,
     textTransform: 'capitalize',
   },
@@ -169,7 +169,6 @@ const styles = StyleSheet.create({
     borderRadius:10,
     backgroundColor:'#a6d1ae',
     padding: 10,
-    marginBottom: 10
   },
   modalCenteredView: {
     flex: 1,
