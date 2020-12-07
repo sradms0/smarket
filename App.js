@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { StyleSheet, Text, View, Button, Alert, TouchableOpacity, FlatList, TextInput } from 'react-native';
 import withContext, { Context, Provider } from './context';
+
 
 // local components
 import Register from './components/Account/Register';
@@ -60,10 +61,105 @@ function CheckOutScreen({navigation}){
 
 
 function CartScreen({navigation}){
+  let theData = [];
+  const [data, setData] = useState(theData);  
+  const [toRemove, setToRemove] = useState("null");
+  const [itemName, setItemName] = useState("null");
+  const [itemPrice, setitemPrice] = useState("null");
+  const [total, setTotal] = useState(0)
+
+const add = () => {
+  var newDs = []
+  if (itemName != 'null' && itemPrice != 'null' ){
+    var found = data.filter((item) => item.name == itemName)
+    if (found.length ==0){
+      newDs = data.slice();
+      newDs.push({ name:itemName, cost:itemPrice, quant:1})
+      setData(newDs);
+      Alert.alert("New item added")
+    }
+    else{
+      newDs = data.map((item) => inc(item))
+      setData(newDs)
+      Alert.alert("Quantity updated")
+    }
+    setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
+  }
+  else{
+    Alert.alert("Item not added")
+  }
+};
+
+const inc = (item) => {
+  if (item.name == itemName){
+    item.quant += 1; 
+    item.cost = Number(item.cost)+Number(itemPrice);
+  }
+  return item;
+}
+
+const remove = () => {
+  var found = data.filter((item) => item.name == toRemove)
+  if (found==0){
+    Alert.alert("Not removed")
+  }
+  else{
+  var newDs = data.filter((item) => item.name != toRemove)
+  setData(newDs);
+  Alert.alert("Removed");
+  setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
+}
+  
+};
+
+  let _renderItem = data => {
+     return (
+     <Text style={styles.row}>Item: {data.item.name} Quantity: {data.item.quant} Price: ${data.item.cost}</Text>
+     );
+  };
+
+  let _keyExtractor = (item) => {return item.name;};
   return(
     <View style={styles.container}>
       <Text>Cart Screen</Text>
-  <Text>{'\n'}</Text>
+      <View style={styles.container}>
+     <View style={styles.container}>
+     <TextInput style={{flex:1}}
+        style={{height: 40}}
+        placeholder='Enter a item'
+        onChangeText={(myState) => setItemName(myState)}
+       />
+       <TextInput style={{flex:1}}
+        style={{height: 40}}
+        placeholder='Enter a price'
+        onChangeText={(myState) => setitemPrice(myState)}
+       />
+       
+      <TouchableOpacity
+        onPress={add}
+      >   
+     <Text> Add Item</Text>
+
+    </TouchableOpacity>
+    <Text>{"\n"}</Text>
+    <TextInput style={{flex:1}}
+        style={{height: 40}}
+        placeholder='Enter an indentifer'
+        onChangeText={(myState) => setToRemove(myState)}
+       />
+      <TouchableOpacity
+     onPress={remove}
+     >   
+     <Text> Remove Item</Text>
+    </TouchableOpacity>
+
+    </View>
+    <FlatList data={data}
+        keyExtractor={_keyExtractor}
+        renderItem={_renderItem} />
+    <Text>Total: ${total}</Text>
+    <Text>{"\n"}</Text>
+    </View>
     <Button title="CheckOut"
             onPress={() => navigation.navigate('CheckOut')} />
     </View>
@@ -157,4 +253,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  row: {
+    fontSize: 24, 
+    padding: 30, 
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+   backgroundColor: '#BB3333',
+   alignItems: 'center',
+   justifyContent: 'center',
+},
 });
