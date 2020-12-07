@@ -6,6 +6,7 @@ import withContext, { Context, Provider } from './context';
 // local components
 import Register from './components/Account/Register';
 import Login from './components/Account/Login';
+import Map from './components/Map';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -74,6 +75,7 @@ function StorePickerScreen({navigation}){
   return(
     <View style={styles.container}>
       <Text>Store Picker Screen</Text>
+      <Map/>
   <Text>{'\n'}</Text>
     </View>
   )
