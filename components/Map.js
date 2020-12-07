@@ -6,8 +6,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import MapView from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-//https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=500&types=food&name=harbour&key=AIzaSyC-eBmdDb8zlCjiIKNATeklU21IlDYidN4
-const API_KEY = 'AIzaSyC-eBmdDb8zlCjiIKNATeklU21IlDYidN4';
+const API_KEY = '';
 
 export default function Map() {
   const [myRegion, setMyRegion] = useState({
