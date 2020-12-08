@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, View, Button, Alert, TouchableOpacity, FlatList, TextInput } from 'react-native';
-import withContext, { Context, Provider } from './context';
+import withContext, { Context } from './context';
 
 
 // local components
@@ -22,10 +22,8 @@ const CheckoutWithContext = withContext(Checkout);
 function LoginScreen({navigation}){
   return(
     <View style={styles.container}>
-      <Provider>
-        <LoginWithContext navigation={navigation}/>
-        <StatusBar style="auto" />
-      </Provider>
+      <LoginWithContext navigation={navigation}/>
+      <StatusBar style="auto" />
       <Text>{'\n'}</Text>
       <Button 
         title="Register"
@@ -39,10 +37,8 @@ function LoginScreen({navigation}){
 function RegisterScreen({navigation}){
   return(
     <View style={styles.container}>
-      <Provider>
-        <RegisterWithContext />
-        <StatusBar style="auto" />
-      </Provider>
+      <RegisterWithContext />
+      <StatusBar style="auto" />
   <Text>{'\n'}</Text>
     <Button title="Login"
             onPress={() => navigation.navigate('Login')} />
@@ -55,10 +51,8 @@ function CheckOutScreen({navigation}){
   return(
     <View style={styles.container}>
       <Text>Check Out Screen</Text>
-      <Provider>
         <CheckoutWithContext />
         <StatusBar style="auto" />
-      </Provider>
   <Text>{'\n'}</Text>
   <Button title="Store Picker"
             onPress={() => navigation.navigate('Store Picker')} />
@@ -71,9 +65,7 @@ function CheckOutScreen({navigation}){
 function CartScreen({navigation}){
   return(
     <View style={styles.container}>
-      <Provider>
-        <CartWithContext navigation={navigation}/>
-      </Provider>
+      <CartWithContext navigation={navigation}/>
       <StatusBar style="auto" />
       <Text>{'\n'}</Text>
       <Button title="CheckOut"
