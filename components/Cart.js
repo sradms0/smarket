@@ -17,12 +17,13 @@ export default function Cart({ context }) {
       if (found.length ==0){
         newDs = data.slice();
         newDs.push({ name:itemName, cost:itemPrice, quant:1})
-        setData(newDs);
+        //setData(newDs);
+        context.actions.updateCartItems(newDs)
         Alert.alert("New item added")
       }
       else{
         newDs = data.map((item) => inc(item))
-        setData(newDs)
+        context.actions.updateCartItems(newDs)
         Alert.alert("Quantity updated")
       }
       //setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
@@ -92,9 +93,9 @@ export default function Cart({ context }) {
     </TouchableOpacity>
 
     <ScrollView>
-    {data.map(d => {
+    {context.cartItems.map(d => {
       return (
-          <Text style={styles.row} key={d.name}>{`Item: ${d.name} Quantity: ${d.quant} Price: \$${d.cost}`}</Text>
+        <Text style={styles.row} key={d.name}>{`Item: ${d.name} Quantity: ${d.quant} Price: \$${d.cost}`}</Text>
       );
     })}
     </ScrollView>

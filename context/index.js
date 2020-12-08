@@ -8,11 +8,21 @@ export const Context = React.createContext();
 export class Provider extends Component {
   state = { 
     authenticatedUser: null,
+    cartItems: [],
     cartTotal: 0
   };
 
+  updateCartItems = items => {
+    this.setState({ cartItems: items});
+  }
+
   updateCartTotal = price => {
     this.setState({ cartTotal: price})
+  }
+
+  calculateCartTotalWithTax = tax => {
+    const { cartTotal } = this.state;
+    return cartTotal+cartTotal*tax;
   }
 
   clearData = async () => {
@@ -46,12 +56,15 @@ export class Provider extends Component {
   render() {
     const value = {
       authenticatedUser: this.state.authenticatedUser,
+      cartItems: this.state.cartItems,
       cartTotal: this.state.cartTotal,
       actions: {
         clearData: this.clearData,
         register: this.register,
         login: this.login,
-        updateCartTotal: this.updateCartTotal
+        updateCartItems: this.updateCartItems,
+        updateCartTotal: this.updateCartTotal,
+        calculateCartTotalWithTax: this.calculateCartTotalWithTax
       }
     }
     return (
