@@ -3,8 +3,6 @@ import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, ScrollView, View, Button, Alert, TouchableOpacity, FlatList, TextInput } from 'react-native';
 
 export default function Cart({ context }) {
-  let theData = [];
-  const [data, setData] = useState(theData);  
   const [toRemove, setToRemove] = useState("null");
   const [itemName, setItemName] = useState("null");
   const [itemPrice, setitemPrice] = useState("null");
@@ -13,20 +11,18 @@ export default function Cart({ context }) {
   const add = () => {
     var newDs = []
     if (itemName != 'null' && itemPrice != 'null' ){
-      var found = data.filter((item) => item.name == itemName)
+      var found = context.cartItems.filter((item) => item.name == itemName)
       if (found.length ==0){
-        newDs = data.slice();
+        newDs = context.cartItems.slice();
         newDs.push({ name:itemName, cost:itemPrice, quant:1})
-        //setData(newDs);
         context.actions.updateCartItems(newDs)
         Alert.alert("New item added")
       }
       else{
-        newDs = data.map((item) => inc(item))
+        newDs = context.cartItems.map((item) => inc(item))
         context.actions.updateCartItems(newDs)
         Alert.alert("Quantity updated")
       }
-      //setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
       const total = newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0);
       context.actions.updateCartTotal(total)
     }
@@ -44,15 +40,14 @@ export default function Cart({ context }) {
   }
 
   const remove = () => {
-    var found = data.filter((item) => item.name == toRemove)
+    var found = context.cartItems.filter((item) => item.name == toRemove)
     if (found==0){
       Alert.alert("Not removed")
     }
     else{
-    var newDs = data.filter((item) => item.name != toRemove)
-    setData(newDs);
+    var newDs = context.cartItems.filter((item) => item.name != toRemove)
+    context.actions.updateCartItems(newDs);
     Alert.alert("Removed");
-    //setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
     const total = newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0);
     context.actions.updateCartTotal(total)
     }

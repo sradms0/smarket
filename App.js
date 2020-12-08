@@ -141,14 +141,18 @@ function WalletStackScreen(){
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function App({ context }) {
   return (
     <NavigationContainer>
         <Tab.Navigator>
         <Tab.Screen name="Login" component={LoginStackScreen} />
-        <Tab.Screen name="Store Picker" component={StorePickerScreen}/>
-        <Tab.Screen name="Cart" component={CartStackScreen} />
-        <Tab.Screen name="Wallet" component={WalletStackScreen}/>
+          {context.authenticatedUser ? (
+            <React.Fragment>
+              <Tab.Screen name="Store Picker" component={StorePickerScreen}/>
+              <Tab.Screen name="Cart" component={CartStackScreen} />
+              <Tab.Screen name="Wallet" component={WalletStackScreen}/>
+            </React.Fragment>
+          ): null}
       </Tab.Navigator>
     </NavigationContainer>
   )
