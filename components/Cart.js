@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, Text, ScrollView, View, Button, Alert, TouchableOpacity, FlatList, TextInput } from 'react-native';
 
-export default function Cart() {
+export default function Cart({ context }) {
   let theData = [];
   const [data, setData] = useState(theData);  
   const [toRemove, setToRemove] = useState("null");
@@ -25,7 +25,9 @@ export default function Cart() {
         setData(newDs)
         Alert.alert("Quantity updated")
       }
-      setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
+      //setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
+      const total = newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0);
+      context.actions.updateCartTotal(total)
     }
     else{
       Alert.alert("Item not added")
@@ -49,7 +51,9 @@ export default function Cart() {
     var newDs = data.filter((item) => item.name != toRemove)
     setData(newDs);
     Alert.alert("Removed");
-    setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
+    //setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
+    const total = newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0);
+    context.actions.updateCartTotal(total)
     }
     
   };
@@ -94,7 +98,7 @@ export default function Cart() {
       );
     })}
     </ScrollView>
-    <Text>Total: ${total}</Text>
+    <Text>Total: ${context.cartTotal}</Text>
     <Text>{"\n"}</Text>
     </View>
   );

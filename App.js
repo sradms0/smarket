@@ -15,6 +15,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const RegisterWithContext = withContext(Register);
 const LoginWithContext = withContext(Login);
+const CartWithContext = withContext(Cart);
 
 function LoginScreen({navigation}){
   return(
@@ -64,7 +65,9 @@ function CheckOutScreen({navigation}){
 function CartScreen({navigation}){
   return(
     <View style={styles.container}>
-      <Cart/>
+      <Provider>
+        <CartWithContext navigation={navigation}/>
+      </Provider>
       <StatusBar style="auto" />
       <Text>{'\n'}</Text>
       <Button title="CheckOut"

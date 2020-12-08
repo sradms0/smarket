@@ -6,7 +6,14 @@ const data = new Data();
 export const Context = React.createContext();
 
 export class Provider extends Component {
-  state = { authenticatedUser: null };
+  state = { 
+    authenticatedUser: null,
+    cartTotal: 0
+  };
+
+  updateCartTotal = price => {
+    this.setState({ cartTotal: price})
+  }
 
   clearData = async () => {
     try {
@@ -39,10 +46,12 @@ export class Provider extends Component {
   render() {
     const value = {
       authenticatedUser: this.state.authenticatedUser,
+      cartTotal: this.state.cartTotal,
       actions: {
         clearData: this.clearData,
         register: this.register,
-        login: this.login
+        login: this.login,
+        updateCartTotal: this.updateCartTotal
       }
     }
     return (
