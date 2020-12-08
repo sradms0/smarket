@@ -90,7 +90,7 @@ export default function Cart() {
     <ScrollView>
     {data.map(d => {
       return (
-          <Text style={styles.row} key={d.name}>{`Item: ${d.name} Quantity: ${d.quant} Price: ${d.cost}`}</Text>
+          <Text style={styles.row} key={d.name}>{`Item: ${d.name} Quantity: ${d.quant} Price: \$${d.cost}`}</Text>
       );
     })}
     </ScrollView>
