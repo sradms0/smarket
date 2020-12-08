@@ -7,6 +7,7 @@ import withContext, { Context, Provider } from './context';
 // local components
 import Register from './components/Account/Register';
 import Login from './components/Account/Login';
+import Cart from './components/Cart';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -61,107 +62,13 @@ function CheckOutScreen({navigation}){
 
 
 function CartScreen({navigation}){
-  let theData = [];
-  const [data, setData] = useState(theData);  
-  const [toRemove, setToRemove] = useState("null");
-  const [itemName, setItemName] = useState("null");
-  const [itemPrice, setitemPrice] = useState("null");
-  const [total, setTotal] = useState(0)
-
-const add = () => {
-  var newDs = []
-  if (itemName != 'null' && itemPrice != 'null' ){
-    var found = data.filter((item) => item.name == itemName)
-    if (found.length ==0){
-      newDs = data.slice();
-      newDs.push({ name:itemName, cost:itemPrice, quant:1})
-      setData(newDs);
-      Alert.alert("New item added")
-    }
-    else{
-      newDs = data.map((item) => inc(item))
-      setData(newDs)
-      Alert.alert("Quantity updated")
-    }
-    setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
-  }
-  else{
-    Alert.alert("Item not added")
-  }
-};
-
-const inc = (item) => {
-  if (item.name == itemName){
-    item.quant += 1; 
-    item.cost = Number(item.cost)+Number(itemPrice);
-  }
-  return item;
-}
-
-const remove = () => {
-  var found = data.filter((item) => item.name == toRemove)
-  if (found==0){
-    Alert.alert("Not removed")
-  }
-  else{
-  var newDs = data.filter((item) => item.name != toRemove)
-  setData(newDs);
-  Alert.alert("Removed");
-  setTotal(newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0))
-}
-  
-};
-
-  let _renderItem = data => {
-     return (
-     <Text style={styles.row}>Item: {data.item.name} Quantity: {data.item.quant} Price: ${data.item.cost}</Text>
-     );
-  };
-
-  let _keyExtractor = (item) => {return item.name;};
   return(
     <View style={styles.container}>
-      <Text>Cart Screen</Text>
-      <View style={styles.container}>
-     <View style={styles.container}>
-     <TextInput style={{flex:1}}
-        style={{height: 40}}
-        placeholder='Enter a item'
-        onChangeText={(myState) => setItemName(myState)}
-       />
-       <TextInput style={{flex:1}}
-        style={{height: 40}}
-        placeholder='Enter a price'
-        onChangeText={(myState) => setitemPrice(myState)}
-       />
-       
-      <TouchableOpacity
-        onPress={add}
-      >   
-     <Text> Add Item</Text>
-
-    </TouchableOpacity>
-    <Text>{"\n"}</Text>
-    <TextInput style={{flex:1}}
-        style={{height: 40}}
-        placeholder='Enter an indentifer'
-        onChangeText={(myState) => setToRemove(myState)}
-       />
-      <TouchableOpacity
-     onPress={remove}
-     >   
-     <Text> Remove Item</Text>
-    </TouchableOpacity>
-
-    </View>
-    <FlatList data={data}
-        keyExtractor={_keyExtractor}
-        renderItem={_renderItem} />
-    <Text>Total: ${total}</Text>
-    <Text>{"\n"}</Text>
-    </View>
-    <Button title="CheckOut"
-            onPress={() => navigation.navigate('CheckOut')} />
+      <Cart/>
+      <StatusBar style="auto" />
+      <Text>{'\n'}</Text>
+      <Button title="CheckOut"
+              onPress={() => navigation.navigate('CheckOut')} />
     </View>
   )
 }
