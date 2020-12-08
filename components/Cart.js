@@ -10,14 +10,6 @@ export default function Cart() {
   const [itemPrice, setitemPrice] = useState("null");
   const [total, setTotal] = useState(0)
 
-  //testing
-  useEffect(() => {
-    let items = [];
-    for (let i = 0; i < 100; i++) 
-      items.push({ name: i+1, cost: i*10, quant: i+1})
-    setData(items);
-  }, []);
-
   const add = () => {
     var newDs = []
     if (itemName != 'null' && itemPrice != 'null' ){
@@ -66,17 +58,15 @@ export default function Cart() {
   return(
     <View style={styles.container}>
       <Text>Cart Screen</Text>
-      <View style={styles.container}>
-     <View style={styles.container}>
-       <TextInput style={{flex:1}}
-          style={{height: 40}}
-          placeholder='Enter a item'
-          onChangeText={(myState) => setItemName(myState)}
-         />
-       <TextInput style={{flex:1}}
+     <TextInput style={{flex:1}}
         style={{height: 40}}
-        placeholder='Enter a price'
-        onChangeText={(myState) => setitemPrice(myState)}
+        placeholder='Enter a item'
+        onChangeText={(myState) => setItemName(myState)}
+       />
+     <TextInput style={{flex:1}}
+      style={{height: 40}}
+      placeholder='Enter a price'
+      onChangeText={(myState) => setitemPrice(myState)}
        />
        
       <TouchableOpacity
@@ -96,9 +86,7 @@ export default function Cart() {
      >   
      <Text> Remove Item</Text>
     </TouchableOpacity>
-    </View>
 
-    {/*flat-list alternative...*/}
     <ScrollView>
     {data.map(d => {
       return (
@@ -108,7 +96,6 @@ export default function Cart() {
     </ScrollView>
     <Text>Total: ${total}</Text>
     <Text>{"\n"}</Text>
-    </View>
     </View>
   );
 }
