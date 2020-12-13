@@ -9,6 +9,7 @@ import Checkout from './components/Checkout';
 import Register from './components/Account/Register';
 import Login from './components/Account/Login';
 import Cart from './components/Cart';
+import Wallet from './components/Wallet';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -18,6 +19,7 @@ const RegisterWithContext = withContext(Register);
 const LoginWithContext = withContext(Login);
 const CartWithContext = withContext(Cart);
 const CheckoutWithContext = withContext(Checkout);
+const WalletWithContext = withContext(Wallet);
 
 function LoginScreen({navigation}){
   return(
@@ -88,8 +90,8 @@ function WalletScreen({navigation}){
     <View style={styles.container}>
       <Text>Wallet Screen</Text>
   <Text>{'\n'}</Text>
-    <Button title="Coupon"
-            onPress={() => navigation.navigate('Coupon')} />
+    <WalletWithContext navigation={navigation} />
+    
     </View>
   )
 }
