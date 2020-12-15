@@ -84,8 +84,15 @@ export default class Data {
         },
         pinColor: 'purple'
       },
-
-    ]
+      {
+        name: 'Saigon Kitchen',
+        latlng: {
+          latitude: 42.43960410828241,
+          longitude: -76.50748814842532
+        },
+        pinColor: 'purple'
+      },
+    ];
     return stores;
   }
 }

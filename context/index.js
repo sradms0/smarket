@@ -11,6 +11,7 @@ export class Provider extends Component {
     authenticatedUser: true,
     cartItems: [],
     stores: [],
+    currentStore: null,
     cartTotal: 0
   };
 
@@ -20,6 +21,10 @@ export class Provider extends Component {
 
   updateCartTotal = price => {
     this.setState({ cartTotal: price})
+  }
+
+  updateCurrentStore = store => {
+    this.setState({ currentStore: store });
   }
 
   calculateCartTotalWithTax = tax => {
@@ -77,7 +82,8 @@ export class Provider extends Component {
         updateCartItems: this.updateCartItems,
         updateCartTotal: this.updateCartTotal,
         calculateCartTotalWithTax: this.calculateCartTotalWithTax,
-        getSurroundingStores: this.getSurroundingStores
+        getSurroundingStores: this.getSurroundingStores,
+        updateCurrentStore: this.updateCurrentStore 
       }
     }
     return (

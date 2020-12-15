@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, TouchableOpacity, Text, View } from 'react-native';
 
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import MapView, { Marker } from 'react-native-maps';
 
-export default function StoreLocator({ context }) {
+export default function StoreLocator({ context, navigation }) {
   const [myRegion, setMyRegion] = useState({
       latitude: 42.440958031232164,
       longitude: -76.50968755977043,
@@ -64,32 +64,20 @@ export default function StoreLocator({ context }) {
     );
   }
 
-  const Item = ({ item, onPress, style }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, style]}>
-      <Text style={styles.title}>{item.name}</Text>
-    </TouchableOpacity>
-  );
-
-  const renderItem = ({ item }) => {
-    const backgroundColor = item.key === selectedStoreKey ? "#6e3b6e" : "#a6d1ae";
-    return (
-      <Item
-        item={item}
-        onPress={() => setSelectedStoreKey(item.key)}
-        style={{ backgroundColor: "#a6d1ae" }}
-      />
-    );
-  };
-
   const displayStores = () => (
-    myStoresLoading ? (<Text>Finding stores for you...</Text>): (
-      <View style={styles.container}>
-        <Text>stores found:{context.stores.length}</Text>
-          {context.stores.map((s, i) => ( 
-            <Text key={i}>{s.name}</Text>
-          ))}
-      </View>
-    )
+    <ScrollView contentContainerStyle={styles.storeList}>
+      <Text>stores found:{context.stores.length}</Text>
+        {context.stores.map((s, i) => ( 
+          <Text 
+            onPress={() => {
+              context.actions.updateCurrentStore(s);
+              navigation.navigate("Cart");
+            }}
+            style={styles.row} 
+            key={i}>{s.name}
+          </Text>
+        ))}
+    </ScrollView>
   );
   return (
     <View style={styles.container}>
@@ -107,6 +95,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  storeList: {
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
   mapStyle: {
     width: 400,
     height: 250
@@ -116,6 +108,15 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+  },
+  row: {
+    fontSize: 24, 
+    padding: 30, 
+    borderWidth: 1,
+    borderColor: "#DDDDDD",
+   backgroundColor: '#BB3333',
+   alignItems: 'center',
+   justifyContent: 'center',
   },
   title: {
     fontSize: 32,
