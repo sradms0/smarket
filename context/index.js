@@ -7,8 +7,11 @@ export const Context = React.createContext();
 
 export class Provider extends Component {
   state = { 
-    authenticatedUser: null,
+    //authenticatedUser: null,
+    authenticatedUser: true,
     cartItems: [],
+    stores: [],
+    currentStore: null,
     cartTotal: 0
   };
 
@@ -18,6 +21,10 @@ export class Provider extends Component {
 
   updateCartTotal = price => {
     this.setState({ cartTotal: price})
+  }
+
+  updateCurrentStore = store => {
+    this.setState({ currentStore: store });
   }
 
   calculateCartTotalWithTax = tax => {
@@ -53,18 +60,30 @@ export class Provider extends Component {
     }
   }
 
+  getSurroundingStores = () => {
+    try {
+      const res = data.getSurroundingStores();
+      this.setState({ stores: res });
+    } catch(err) {
+      this.setState({ stores: err.message });
+    }
+  }
+
   render() {
     const value = {
       authenticatedUser: this.state.authenticatedUser,
       cartItems: this.state.cartItems,
       cartTotal: this.state.cartTotal,
+      stores: this.state.stores,
       actions: {
         clearData: this.clearData,
         register: this.register,
         login: this.login,
         updateCartItems: this.updateCartItems,
         updateCartTotal: this.updateCartTotal,
-        calculateCartTotalWithTax: this.calculateCartTotalWithTax
+        calculateCartTotalWithTax: this.calculateCartTotalWithTax,
+        getSurroundingStores: this.getSurroundingStores,
+        updateCurrentStore: this.updateCurrentStore 
       }
     }
     return (

@@ -10,6 +10,7 @@ import Register from './components/Account/Register';
 import Login from './components/Account/Login';
 import Cart from './components/Cart';
 import Wallet from './components/Wallet';
+import StoreLocator from './components/StoreLocator';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -20,6 +21,7 @@ const LoginWithContext = withContext(Login);
 const CartWithContext = withContext(Cart);
 const CheckoutWithContext = withContext(Checkout);
 const WalletWithContext = withContext(Wallet);
+const StoreLocatorWithContext = withContext(StoreLocator);
 
 function LoginScreen({navigation}){
   return(
@@ -79,8 +81,8 @@ function CartScreen({navigation}){
 function StorePickerScreen({navigation}){
   return(
     <View style={styles.container}>
-      <Text>Store Picker Screen</Text>
-  <Text>{'\n'}</Text>
+      <StoreLocatorWithContext navigation={navigation}/>
+      <StatusBar style="auto" />
     </View>
   )
 }
@@ -138,6 +140,16 @@ function WalletStackScreen(){
     </WalletStack.Navigator>
   )
 }
+
+const StoreLocatorStack = createStackNavigator();
+function StoreLocatorStackScreen(){
+  return (
+    <StoreLocatorStack.Navigator>
+      <StoreLocatorStack.Screen name="Store Picker" component={StoreLocatorScreen}/>
+    </StoreLocatorStack.Navigator>
+  )
+}
+
 
 const Tab = createBottomTabNavigator();
 
