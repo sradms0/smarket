@@ -13,16 +13,23 @@ export default function Wallet({ context }) {
     const onCreditCardZipCodeChange = text => setCreditCardZipCode(text);
     const onCreditCardCVVChange = text => setCreditCardCVV(text);
 
-    const change = async() =>{
-        let status;
-    try {
-      status = res.message;
-    } catch(err) {
-      status = err.message;
-      
-    }
-    setSubmissionMessage(status);
-    setModalOn(true);
+    const change = async () =>{
+      let status;
+      try {
+        const res = await context.actions.updateCreditCard(
+          context.authenticatedUser.emailAddress, {
+            number: creditCardNumber,
+            zip: creditCardZipCode,
+            cvv: creditCardCVV,
+          }
+        );
+        status = res.message;
+      } catch(err) {
+        status = err.message;
+        
+      } 
+      setSubmissionMessage(status);
+      setModalOn(true);
     }
 
     return(
