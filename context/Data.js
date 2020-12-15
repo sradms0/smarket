@@ -7,19 +7,33 @@ export default class Data {
     this.#storage = AsyncStorage;
   }
 
-  #validateNewUser({ emailAddress, password, confirmPassword, creditCard: {number, zip, cvv} }) {
+  #validateNewUser({ emailAddress, password, confirmPassword, creditCard }) {
     const validators = [
       {key: 'email', f: () => !/\w+@\w+\.\w{2,3}/.test(emailAddress) ? 'valid email required' : null},
       {key: 'password', f: () => password.length < 5 ? 'must be at least 5 characters' : null},
       {key: 'password confirmation', f: () => confirmPassword !== password ? 'passwords do not match' : null},
-      {key: 'cc-num', f: () => !/^(\d{13,16})$/.test(number) ? 'number between 13 and 16 required' : null},
-      {key: 'cc-zip', f: () => !/^(\d{5})$/.test(zip) ? '5 digit zip code required' : null},
-      {key: 'cc-zip', f: () => !/^(\d{3})$/.test(cvv) ? '3 digit number required' : null}
+      ...this.#getCardValidators(creditCard)
     ];
     return validators
       .map(v => ({ field: v.key,  status: v.f() }))
       .filter(res => res.status)
       .reduce((acc, curr) => acc + `${curr.field}: ${curr.status}\n\n`, '');
+  }
+
+  #validateNewCard(creditCard) {
+    const validators = this.#getCardValidators(creditCard);
+    return validators
+      .map(v => ({ field: v.key,  status: v.f() }))
+      .filter(res => res.status)
+      .reduce((acc, curr) => acc + `${curr.field}: ${curr.status}\n\n`, '');
+  }
+
+  #getCardValidators({ number, zip, cvv }) {
+    return [
+      {key: 'cc-num', f: () => !/^(\d{13,16})$/.test(number) ? 'number between 13 and 16 required' : null},
+      {key: 'cc-zip', f: () => !/^(\d{5})$/.test(zip) ? '5 digit zip code required' : null},
+      {key: 'cc-cvv', f: () => !/^(\d{3})$/.test(cvv) ? '3 digit number required' : null}
+    ];
   }
 
   async clearStorage() {
@@ -68,12 +82,17 @@ export default class Data {
 
   async updateCreditCard(emailAddress, newCardData) {
     try {
-      const data = await this.#storage.getItem(emailAddress), user = JSON.parse(data);
-      user.creditCard.number = newCardData.number;
-      user.creditCard.zip = newCardData.zip;
-      user.creditCard.cvv = newCardData.cvv;
-      await this.#storage.setItem(emailAddress, JSON.stringify(user));
-      return { message: 'successful!', user, status: 200 };
+      const errs = this.#validateNewCard(newCardData);
+      if (!errs.length) {
+        const data = await this.#storage.getItem(emailAddress), user = JSON.parse(data);
+        user.creditCard.number = newCardData.number;
+        user.creditCard.zip = newCardData.zip;
+        user.creditCard.cvv = newCardData.cvv;
+        await this.#storage.setItem(emailAddress, JSON.stringify(user));
+        return { message: 'card updated!', user, status: 200 };
+      } else {
+        return { message: errs, status: 400 };
+      }
     } catch (err) {
       console.log(err);
       return { message: err.message, status: 500 };
