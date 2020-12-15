@@ -101,6 +101,15 @@ export class Provider extends Component {
     }
   }
 
+  updateCreditCard = async (emailAddress, creditCard) => {
+    try {
+      const res = await data.updateCreditCard(emailAddress, creditCard);
+      return res;
+    } catch(err) {
+      return err;
+    }
+  }
+
   getSurroundingStores = () => {
     try {
       const res = data.getSurroundingStores();
@@ -109,6 +118,8 @@ export class Provider extends Component {
       this.setState({ storesLocations: err.message });
     }
   }
+
+
 
   render() {
     const value = {
@@ -121,6 +132,7 @@ export class Provider extends Component {
         clearData: this.clearData,
         register: this.register,
         login: this.login,
+        updateCreditCard: this.updateCreditCard,
         addCartItem: this.addCartItem ,
         removeCartItem: this.removeCartItem,
         updateCartTotal: this.updateCartTotal,

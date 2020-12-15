@@ -66,6 +66,20 @@ export default class Data {
     }
   }
 
+  async updateCreditCard(emailAddress, newCardData) {
+    try {
+      const data = await this.#storage.getItem(emailAddress), user = JSON.parse(data);
+      user.creditCard.number = newCardData.number;
+      user.creditCard.zip = newCardData.zip;
+      user.creditCard.cvv = newCardData.cvv;
+      await this.#storage.setItem(emailAddress, JSON.stringify(user));
+      return { message: 'successful!', user, status: 200 };
+    } catch (err) {
+      console.log(err);
+      return { message: err.message, status: 500 };
+    }
+  }
+
   getSurroundingStores() {
     const stores = [
       {
