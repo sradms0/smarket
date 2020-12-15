@@ -30,6 +30,7 @@ export default function Wallet({ context }) {
 
     return(
         <View style={styles.container}>
+          <View style={{marginTop: 10}}>
             <Text>Current Credit Card Number</Text>
             <Text>HERE WE WOULD GET THE NUMBER FROM CONTEXT</Text>
             <Text>Change Payment Information</Text>
@@ -78,6 +79,7 @@ export default function Wallet({ context }) {
                 </View>
                 </View>
             </Modal>
+        </View>
         </View>
     )
 }
