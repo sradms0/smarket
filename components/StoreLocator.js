@@ -51,7 +51,7 @@ export default function StoreLocator({ context, navigation }) {
         region={myRegion}
         onRegionChange={onChangeRegion}
       >
-          {context.stores.map((s, i) => (
+          {context.storeLocations.map((s, i) => (
             <Marker
               key={i}
               coordinate={s.latlng}
@@ -66,11 +66,13 @@ export default function StoreLocator({ context, navigation }) {
 
   const displayStores = () => (
     <ScrollView contentContainerStyle={styles.storeList}>
-      <Text>stores found:{context.stores.length}</Text>
-        {context.stores.map((s, i) => ( 
+      <Text>stores found:{context.storeLocations.length}</Text>
+        {context.storeLocations.map((s, i) => ( 
           <Text 
             onPress={() => {
-              context.actions.updateCurrentStore(s);
+              if (context.currentStore !== s.name)
+                context.actions.clearCartItems();
+              context.actions.updateCurrentStore(s.name, s.dataName);
               navigation.navigate("Cart");
             }}
             style={styles.row} 

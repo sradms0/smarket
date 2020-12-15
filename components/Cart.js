@@ -1,101 +1,102 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, ScrollView, View, Button, Alert, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { 
+  StyleSheet,
+  Text, 
+  ScrollView, 
+  View, 
+  Button, 
+  Alert, 
+  TouchableOpacity,
+  TouchableHighlight,
+  TextInput,
+  Modal
+} from 'react-native';
+
+import GestureRecognizer, 
+      {swipeDirections} 
+from 'react-native-swipe-gestures';
 
 export default function Cart({ context }) {
   const [toRemove, setToRemove] = useState("null");
   const [itemName, setItemName] = useState("null");
   const [itemPrice, setitemPrice] = useState("null");
   const [total, setTotal] = useState(0)
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const add = () => {
-    var newDs = []
-    if (itemName != 'null' && itemPrice != 'null' ){
-      var found = context.cartItems.filter((item) => item.name == itemName)
-      if (found.length ==0){
-        newDs = context.cartItems.slice();
-        newDs.push({ name:itemName, cost:itemPrice, quant:1})
-        context.actions.updateCartItems(newDs)
-        Alert.alert("New item added")
-      }
-      else{
-        newDs = context.cartItems.map((item) => inc(item))
-        context.actions.updateCartItems(newDs)
-        Alert.alert("Quantity updated")
-      }
-      const total = newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0);
-      context.actions.updateCartTotal(total)
-    }
-    else{
-      Alert.alert("Item not added")
-    }
+  const add = item => {
+    context.actions.addCartItem(item);
   };
 
-  const inc = (item) => {
-    if (item.name == itemName){
-      item.quant += 1; 
-      item.cost = Number(item.cost)+Number(itemPrice);
-    }
-    return item;
-  }
-
-  const remove = () => {
-    var found = context.cartItems.filter((item) => item.name == toRemove)
-    if (found==0){
-      Alert.alert("Not removed")
-    }
-    else{
-    var newDs = context.cartItems.filter((item) => item.name != toRemove)
-    context.actions.updateCartItems(newDs);
-    Alert.alert("Removed");
-    const total = newDs.reduce(function(sum, item){return sum +Number(item.cost)}, 0);
-    context.actions.updateCartTotal(total)
-    }
-    
+  const remove = item => {
+    context.actions.removeCartItem(item);
   };
 
+  const displayStoreItems = () => (
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ScrollView>
+              {context.currentStore.data.items.map((item, i) => ( 
+                <Text style={styles.row} key={i} onPress={() => add(item)}>
+                  {`Item: ${item.food} Price: \$${item.price}`}
+                </Text>
+              ))}
+            </ScrollView>
+            <TouchableHighlight
+              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Back</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  )
+
+  const displayChosenItems = () => (
+    <ScrollView>
+        {context.cartItems.map((item,i) => ( 
+          <GestureRecognizer 
+            onSwipeRight={() => add(item)} 
+            onSwipeLeft={() => remove(item)} 
+            key={item.name+''+i}>
+            <Text style={styles.row}>{`Item: ${item.food} Quantity: ${item.quantity} Price: \$${item.price}`}</Text>
+          </GestureRecognizer>
+        ))}
+    </ScrollView>
+  );
 
   return(
     <View style={styles.container}>
-      <Text>Cart Screen</Text>
-     <TextInput style={{flex:1}}
-        style={{height: 40}}
-        placeholder='Enter a item'
-        onChangeText={(myState) => setItemName(myState)}
-       />
-     <TextInput style={{flex:1}}
-      style={{height: 40}}
-      placeholder='Enter a price'
-      onChangeText={(myState) => setitemPrice(myState)}
-       />
-       
-      <TouchableOpacity
-        onPress={add}
-      >   
-     <Text> Add Item</Text>
-
-    </TouchableOpacity>
-    <Text>{"\n"}</Text>
-    <TextInput style={{flex:1}}
-        style={{height: 40}}
-        placeholder='Enter an indentifer'
-        onChangeText={(myState) => setToRemove(myState)}
-       />
-      <TouchableOpacity
-     onPress={remove}
-     >   
-     <Text> Remove Item</Text>
-    </TouchableOpacity>
-
-    <ScrollView>
-    {context.cartItems.map(d => {
-      return (
-        <Text style={styles.row} key={d.name}>{`Item: ${d.name} Quantity: ${d.quant} Price: \$${d.cost}`}</Text>
-      );
-    })}
-    </ScrollView>
-    <Text>Total: ${context.cartTotal}</Text>
-    <Text>{"\n"}</Text>
+      {context.currentStore ? (
+        <React.Fragment>
+          <Text>{context.currentStore.displayName} Cart</Text>
+          <TouchableHighlight
+            style={styles.openButton}
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          >
+          <Text style={styles.textStyle}>Add Items</Text>
+          </TouchableHighlight>
+          {displayChosenItems()}
+          {displayStoreItems()}
+          <Text>Total: ${context.cartTotal}</Text>
+          <Text>{"\n"}</Text>
+      </React.Fragment>
+      ) : (<Text>Please choose a store</Text>)}
     </View>
   );
 }
@@ -112,19 +113,55 @@ const styles = StyleSheet.create({
     padding: 30, 
     borderWidth: 1,
     borderColor: "#DDDDDD",
-   backgroundColor: '#BB3333',
-   alignItems: 'center',
-   justifyContent: 'center',
-},
-
+    backgroundColor: '#BB3333',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   item: {
     backgroundColor:'#a6d1ae',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
   },
-
   title: {
     fontSize: 32,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    maxHeight: '100%',
+    overflow: 'scroll',
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "tomato",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
