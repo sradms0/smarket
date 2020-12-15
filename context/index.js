@@ -104,6 +104,12 @@ export class Provider extends Component {
   updateCreditCard = async (emailAddress, creditCard) => {
     try {
       const res = await data.updateCreditCard(emailAddress, creditCard);
+      const { authenticatedUser } = this.state;
+      const credentials = { 
+        emailAddress: authenticatedUser.emailAddress, 
+        password: authenticatedUser.password 
+      };
+      const updatedUser = this.login(credentials);
       return res;
     } catch(err) {
       return err;
