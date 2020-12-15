@@ -11,18 +11,21 @@ export default function Login({ context, navigation }) {
   const onPasswordChange = text => setPassword(text);
 
   const login = async () => {
-    let status;
+    let res, status;
     try {
-      const res = await context.actions.login({ emailAddress, password });
+      res = await context.actions.login({ emailAddress, password });
+      status = res.message;
       if (res.status === 200){
         navigation.navigate("Store Picker");
       }
-      status = res.message;
     } catch(err) {
       status = err.message;
+    } finally {
+      if (res?.status === 401) {
+        setSubmissionMessage(status);
+        setModalOn(true);
+      }
     }
-    setSubmissionMessage(status);
-    setModalOn(true);
   }
 
   return (

@@ -182,14 +182,16 @@ export default function App({ context }) {
             style: {backgroundColor: '#b22222',
           },
           }}>
-        <Tab.Screen name="Login" component={LoginStackScreen} style={styles.container} />
+        
           {context.authenticatedUser ? (
             <React.Fragment>
               <Tab.Screen name="Store Picker" component={StorePickerScreen}/>
               <Tab.Screen name="Cart" component={CartStackScreen} />
               <Tab.Screen name="Wallet" component={WalletStackScreen}/>
             </React.Fragment>
-          ): null}
+          ): (
+            <Tab.Screen name="Login" component={LoginStackScreen} style={styles.container} />
+          )}
       </Tab.Navigator>
     </NavigationContainer>
   )
