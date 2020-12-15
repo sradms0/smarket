@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import * as storeData from './storeData.json'
 
 export default class Data {
   #storage
@@ -70,6 +70,7 @@ export default class Data {
     const stores = [
       {
         name: 'Wegmans',
+        dataName: "wegmans",
         latlng: {
           latitude: 42.435840244168105,
           longitude: -76.5107587458254
@@ -78,6 +79,7 @@ export default class Data {
       },
       {
         name: 'Ithaca Bakery',
+        dataName: "ithaca_bakery",
         latlng: {
           latitude: 42.44293212984289,
           longitude: -76.50888635890841
@@ -86,6 +88,7 @@ export default class Data {
       },
       {
         name: 'Saigon Kitchen',
+        dataName: "saigon_kitchen",
         latlng: {
           latitude: 42.43960410828241,
           longitude: -76.50748814842532
@@ -94,5 +97,12 @@ export default class Data {
       },
     ];
     return stores;
+  }
+
+  getStoreData() {
+    storeData.stores.forEach(store => 
+      store.items.forEach(item => item.quantity = 0)
+    );
+    return storeData;
   }
 }

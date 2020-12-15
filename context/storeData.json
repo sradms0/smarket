@@ -1,0 +1,49 @@
+{
+    "stores": [
+        {
+            "name": "wegmans",
+            "items": [
+                {"food":"Onions - Spanish","price":" 14.43"},
+                {"food":"Huck Towels White","price":" 7.60"},
+                {"food":"Rabbit - Saddles","price":" 8.44"},
+                {"food":"Cheese - Brie, Cups 125g","price":" 5.46"},
+                {"food":"Soup - Boston Clam Chowder","price":" 13.06"},
+                {"food":"Oil - Hazelnut","price":" 9.49"},
+                {"food":"Eel Fresh","price":" 15.72"},
+                {"food":"Star Anise, Whole","price":" 1.69"},
+                {"food":"Cookie Chocolate Chip With","price":" 3.75"},
+                {"food":"Fork - Plastic","price":" 7.83"}
+            ]
+        },
+        {
+            "name": "saigon_kitchen",
+            "items": [
+                {"food":"Oil - Coconut","price":" 18.58"},
+                {"food":"Beef - Striploin","price":" 11.99"},
+                {"food":"Ice Cream Bar - Oreo Sandwich","price":" 11.78"},
+                {"food":"Sauce - Cranberry","price":" 14.76"},
+                {"food":"Yoghurt Tubes","price":" 2.73"},
+                {"food":"Corn Kernels - Frozen","price":" 2.15"},
+                {"food":"Chips - Miss Vickies","price":" 17.57"},
+                {"food":"Lobster - Baby, Boiled","price":" 13.64"},
+                {"food":"Veal - Brisket, Provimi, Bone - In","price":" 19.50"},
+                {"food":"Mushroom - Lg - Cello","price":" 4.66"}
+            ]
+        },
+        {
+            "name": "ithaca_bakery",
+            "items": [
+                {"food":"Sprouts - Onion","price":" 7.84"},
+                {"food":"Tea - Darjeeling, Azzura","price":" 4.29"},
+                {"food":"Coffee Guatemala Dark","price":" 5.79"},
+                {"food":"Clams - Bay","price":" 19.94"},
+                {"food":"Mushroom - Shitake, Fresh","price":" 9.94"},
+                {"food":"Trout - Rainbow, Frozen","price":" 15.92"},
+                {"food":"Lamb - Whole, Fresh","price":" 10.12"},
+                {"food":"Beer - Muskoka Cream Ale","price":" 15.84"},
+                {"food":"Extract - Vanilla,artificial","price":" 8.73"},
+                {"food":"Jello - Assorted","price":" 15.18"}
+            ]
+        }
+    ]
+}

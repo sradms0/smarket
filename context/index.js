@@ -2,29 +2,70 @@ import React, { Component } from 'react';
 import Data from './Data';
 
 const data = new Data();
+const storeData = data.getStoreData();
 
 export const Context = React.createContext();
 
 export class Provider extends Component {
   state = { 
-    //authenticatedUser: null,
-    authenticatedUser: true,
+    authenticatedUser: null,
     cartItems: [],
-    stores: [],
+    storeLocations: [],
+    storeData: null,
     currentStore: null,
     cartTotal: 0
   };
 
-  updateCartItems = items => {
-    this.setState({ cartItems: items});
+  addCartItem = item => {
+    // check if item is already in cart; update quantity if so
+    const { cartItems } = this.state;
+    const existing = this.findItem(item);
+    item.quantity++;
+
+    if (!existing) cartItems.push(item);
+
+    this.updateCartItems(cartItems);
   }
 
-  updateCartTotal = price => {
+  removeCartItem = item => {
+    let { cartItems } = this.state;
+    const idx = cartItems.findIndex(i => i === item);
+
+    if (idx > -1) {
+      if (item.quantity === 1)
+        cartItems = [...cartItems.slice(0,idx), ...cartItems.slice(idx+1)];
+      item.quantity--;
+      this.updateCartItems(cartItems)
+    }
+  }
+
+  findItem = item => {
+   return this.state.cartItems.find(i => i === item);
+  }
+
+  getTotalCartItems = () => {
+    return this.state.cartItems
+      .reduce((acc,curr) => acc+curr.quantity, 0);
+  }
+
+  clearCartItems = () => {
+    this.updateCartItems([]);
+  }
+
+  updateCartItems = cartItems => {
+    this.setState({ cartItems: [...cartItems]});
+    this.updateCartTotal(cartItems);
+  }
+
+  updateCartTotal = cartItems => {
+    const price = cartItems
+      .reduce((acc, curr) => acc+curr.price*curr.quantity, 0);
     this.setState({ cartTotal: price})
   }
 
-  updateCurrentStore = store => {
-    this.setState({ currentStore: store });
+  updateCurrentStore = (storeDisplayName, storeDataName) => {
+    const store = storeData.stores.find(s => s.name === storeDataName);
+    this.setState({ currentStore: {displayName: storeDisplayName, data: store}});
   }
 
   calculateCartTotalWithTax = tax => {
@@ -63,9 +104,9 @@ export class Provider extends Component {
   getSurroundingStores = () => {
     try {
       const res = data.getSurroundingStores();
-      this.setState({ stores: res });
+      this.setState({ storeLocations: res });
     } catch(err) {
-      this.setState({ stores: err.message });
+      this.setState({ storesLocations: err.message });
     }
   }
 
@@ -74,16 +115,20 @@ export class Provider extends Component {
       authenticatedUser: this.state.authenticatedUser,
       cartItems: this.state.cartItems,
       cartTotal: this.state.cartTotal,
-      stores: this.state.stores,
+      storeLocations: this.state.storeLocations,
+      currentStore: this.state.currentStore,
       actions: {
         clearData: this.clearData,
         register: this.register,
         login: this.login,
-        updateCartItems: this.updateCartItems,
+        addCartItem: this.addCartItem ,
+        removeCartItem: this.removeCartItem,
         updateCartTotal: this.updateCartTotal,
         calculateCartTotalWithTax: this.calculateCartTotalWithTax,
         getSurroundingStores: this.getSurroundingStores,
-        updateCurrentStore: this.updateCurrentStore 
+        updateCurrentStore: this.updateCurrentStore,
+        getTotalCartItems: this.getTotalCartItems,
+        clearCartItems: this.clearCartItems 
       }
     }
     return (
