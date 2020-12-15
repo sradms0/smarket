@@ -91,7 +91,7 @@ export default function Register({ context }) {
         style={styles.button}
         onPress={register}
       >
-        <Text>Register</Text>
+        <Text style={styles.textColor}>Register</Text>
       </TouchableOpacity>
 
 
@@ -124,15 +124,18 @@ export default function Register({ context }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f8ff',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 2,
+    borderColor:'#BB3333',
   },
   sectionContainer: {
     marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f8ff',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   sectionLabel: {
     marginTop: 20
@@ -145,9 +148,11 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 20,
     textTransform: 'capitalize',
+    color: '#b22222',
   },
   text: {
     textTransform: 'capitalize',
+    color: '#b22222',
   },
   textInput: {
     width: 150,
@@ -164,9 +169,12 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     borderRadius:10,
-    backgroundColor:'#a6d1ae',
+    backgroundColor:'#b22222',
     padding: 10,
-    marginBottom: 5
+    marginBottom: 5,
+    borderWidth: 3,
+    borderColor: '#f8f8ff',
+    color: '#f8f8ff',
   },
   modalCenteredView: {
     flex: 1,
@@ -203,5 +211,8 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
+  },
+  textColor: {
+    color: '#f8f8ff',
   }
 });

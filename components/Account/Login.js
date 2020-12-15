@@ -27,7 +27,7 @@ export default function Login({ context, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.mainHeader}>Smarket</Text>
+      <Text style={styles.mainHeader}>SMARKET</Text>
       <View style={styles.sectionContainer}>
         <View style={styles.sectionLabel}>
           <Text style={styles.sectionHeader}>Welcome back!</Text>
@@ -49,7 +49,7 @@ export default function Login({ context, navigation }) {
         style={styles.button}
         onPress={login}
       >
-        <Text>Login</Text>
+        <Text style={styles.textColor}>Login</Text>
       </TouchableOpacity>
 
       <Modal
@@ -81,32 +81,46 @@ export default function Login({ context, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#faebd7',
     alignItems: 'center',
     justifyContent: 'center',
+    color: '#b22222',
   },
   sectionContainer: {
     flex: 1,
     marginTop: '10%',
     marginBottom: '10%',
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f8ff',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 2,
+    borderColor:'#BB3333',
+    color: '#b22222',
   },
   sectionLabel: {
     margin: 20
   },
   mainHeader: {
-    marginTop: '5%',
+    marginTop: '10%',
     fontSize: 30,
     textTransform: 'capitalize',
+    backgroundColor:'#f8f8ff',
+    color: '#b22222',
+    fontWeight: 'bold',
+    borderWidth: 2,
+    borderColor:'#BB3333',
+    borderEndWidth: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   sectionHeader: {
     fontSize: 20,
     textTransform: 'capitalize',
+    color: '#b22222',
   },
   text: {
     textTransform: 'capitalize',
+    color: '#b22222',
   },
   textInput: {
     width: 150,
@@ -123,8 +137,11 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     borderRadius:10,
-    backgroundColor:'#a6d1ae',
-    padding: 10
+    backgroundColor:'#b22222',
+    padding: 10,
+    borderWidth: 3,
+    borderColor: '#f8f8ff',
+    color: '#f8f8ff',
   },
   modalCenteredView: {
     flex: 1,
@@ -161,6 +178,8 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
+  },
+  textColor: {
+    color: '#f8f8ff',
   }
-
 });

@@ -30,6 +30,7 @@ function LoginScreen({navigation}){
       <Button 
         title="Register"
         onPress={() => navigation.navigate('Register')}
+        style={styles.button}
         />
         <Text>{'\n'}</Text>
       </View>
@@ -112,8 +113,8 @@ const LoginStack = createStackNavigator();
 function LoginStackScreen(){
   return (
     <LoginStack.Navigator>
-      <LoginStack.Screen name="Login" component={LoginScreen}/>
-      <LoginStack.Screen name="Register" component={RegisterScreen}/>
+      <LoginStack.Screen name="Login" component={LoginScreen} style={styles.button}/>
+      <LoginStack.Screen name="Register" component={RegisterScreen} style={styles.button}/>
     </LoginStack.Navigator>
   );
 }
@@ -146,8 +147,31 @@ const Tab = createBottomTabNavigator();
 export default function App({ context }) {
   return (
     <NavigationContainer>
-        <Tab.Navigator>
-        <Tab.Screen name="Login" component={LoginStackScreen} />
+        <Tab.Navigator
+          screenOptions={({route}) => ({
+            tabBarIcon:({focused, color, size}) => {
+              let iconName;
+
+              if(route.name === 'Login'){
+                iconName = focused ? 'ios-body' : 'ios-body';
+              } else if (route.name === 'Store Picker'){
+                iconName = focused ? 'ios-map' : 'ios-mapg';
+              } else if (route.name === 'Cart') {
+                iconName = focused ? 'md-cart' : 'md-cart';
+              } else if (route.name === 'Wallet') {
+                iconName = focused ? 'ios-wallet' : 'ios-wallet'
+              }
+
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'white',
+            style: {backgroundColor: '#b22222',
+          },
+          }}>
+        <Tab.Screen name="Login" component={LoginStackScreen} style={styles.container} />
           {context.authenticatedUser ? (
             <React.Fragment>
               <Tab.Screen name="Store Picker" component={StorePickerScreen}/>
@@ -163,7 +187,7 @@ export default function App({ context }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#faebd7',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -176,4 +200,14 @@ const styles = StyleSheet.create({
    alignItems: 'center',
    justifyContent: 'center',
 },
+navrbar: {
+  backgroundColor:'#b22222',
+},
+
+button: {
+  backgroundColor: '#b22222',
+  color: '#f8f8ff',
+  borderWidth: 3,
+  borderColor: '#f8f8ff',
+}
 });
