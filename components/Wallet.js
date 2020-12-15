@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, Text, ScrollView, View, Button, Alert, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, Button, Alert, TouchableOpacity, FlatList, TextInput, Modal, TouchableHighlight } from 'react-native';
 
 export default function Wallet({ context }) {
     const [creditCardNumber, setCreditCardNumber] = useState('');
     const [creditCardZipCode, setCreditCardZipCode] = useState('');
     const [creditCardCVV, setCreditCardCVV] = useState('');
+    const [modalOn, setModalOn] = useState(false);
+    const [submissionMessage, setSubmissionMessage] = useState('');
 
     const onCreditCardNumberChange = text => setCreditCardNumber(text);
     const onCreditCardZipCodeChange = text => setCreditCardZipCode(text);
@@ -28,6 +30,8 @@ export default function Wallet({ context }) {
 
     return(
         <View style={styles.container}>
+            <Text>Current Credit Card Number</Text>
+            <Text>HERE WE WOULD GET THE NUMBER FROM CONTEXT</Text>
             <Text>Change Payment Information</Text>
             <Text style={styles.text}>Credit-Card Number</Text>
             <TextInput

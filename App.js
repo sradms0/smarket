@@ -87,9 +87,9 @@ function StorePickerScreen({navigation}){
 
 function WalletScreen({navigation}){
   return(
-    <View style={styles.container}>
-      <Text>Wallet Screen</Text>
-  <Text>{'\n'}</Text>
+    <View >
+    
+    <Text>{'\n'}</Text>
     <WalletWithContext navigation={navigation} />
     
     </View>
