@@ -15,10 +15,7 @@ export default function Wallet({ context }) {
 
     const change = async() =>{
         let status;
-        //used to be make new
     try {
-        //change password
-      //const res = await context.actions.register(user);
       status = res.message;
     } catch(err) {
       status = err.message;
@@ -30,15 +27,16 @@ export default function Wallet({ context }) {
 
     return(
         <View style={styles.container}>
-          <View style={{marginTop: 10}}>
             <Text>Current Credit Card Number</Text>
-            <Text>HERE WE WOULD GET THE NUMBER FROM CONTEXT</Text>
+            <Text>{`Number: ${context.authenticatedUser.creditCard.number}`}</Text>
+            <Text>{`Zip: ${context.authenticatedUser.creditCard.zip}`}</Text>
+            <Text>{`CVV: ${context.authenticatedUser.creditCard.cvv}`}</Text>
             <Text>Change Payment Information</Text>
             <Text style={styles.text}>Credit-Card Number</Text>
             <TextInput
             style={styles.textInput}
             onChangeText={text => onCreditCardNumberChange(text)}
-            value={creditCardNumber}
+            defaultValue={creditCardNumber}
             />
             <Text style={styles.text}>Zip Code</Text>
             <TextInput
@@ -79,7 +77,6 @@ export default function Wallet({ context }) {
                 </View>
                 </View>
             </Modal>
-        </View>
         </View>
     )
 }
