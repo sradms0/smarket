@@ -91,13 +91,19 @@ export default function StoreLocator({ context, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffefd5',
     alignItems: 'center',
     justifyContent: 'center',
+    
   },
   storeList: {
-    backgroundColor: '#fff',
+    backgroundColor: '#7fffd4',
     justifyContent: 'center',
+    borderWidth: 5,
+    borderColor: '#90ee90',
+    color: '#f8f8ff',
+    borderLeftWidth: 5,
+    
   },
   mapStyle: {
     width: 400,
@@ -112,11 +118,12 @@ const styles = StyleSheet.create({
   row: {
     fontSize: 24, 
     padding: 30, 
-    borderWidth: 1,
-    borderColor: "#DDDDDD",
+    borderWidth: 2,
+    borderColor: "#f8f8ff",
    backgroundColor: '#BB3333',
    alignItems: 'center',
    justifyContent: 'center',
+   color: '#f8f8ff',
   },
   title: {
     fontSize: 32,

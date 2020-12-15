@@ -57,7 +57,7 @@ export default function Cart({ context }) {
 
   return(
     <View style={styles.container}>
-      <Text>Cart Screen</Text>
+      <Text style={{fontSize: 32, color:'#b22222'}}>Cart Screen</Text>
      <TextInput style={{flex:1}}
         style={{height: 40}}
         placeholder='Enter a item'
@@ -72,7 +72,7 @@ export default function Cart({ context }) {
       <TouchableOpacity
         onPress={add}
       >   
-     <Text> Add Item</Text>
+     <Text style={styles.button}> Add Item</Text>
 
     </TouchableOpacity>
     <Text>{"\n"}</Text>
@@ -84,7 +84,7 @@ export default function Cart({ context }) {
       <TouchableOpacity
      onPress={remove}
      >   
-     <Text> Remove Item</Text>
+     <Text style={styles.button}> Remove Item</Text>
     </TouchableOpacity>
 
     <ScrollView>
@@ -106,6 +106,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 2,
+    borderColor:'#BB3333',
+    fontSize: 24,
   },
   row: {
     fontSize: 24, 
@@ -127,4 +130,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
   },
+
+  button: {
+    borderRadius:10,
+    backgroundColor:'#b22222',
+    padding: 10,
+    borderWidth: 3,
+    borderColor: '#f8f8ff',
+    color: '#f8f8ff',
+  }
 });

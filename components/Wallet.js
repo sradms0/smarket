@@ -27,11 +27,16 @@ export default function Wallet({ context }) {
 
     return(
         <View style={styles.container}>
-            <Text>Current Credit Card Number</Text>
-            <Text>{`Number: ${context.authenticatedUser.creditCard.number}`}</Text>
-            <Text>{`Zip: ${context.authenticatedUser.creditCard.zip}`}</Text>
-            <Text>{`CVV: ${context.authenticatedUser.creditCard.cvv}`}</Text>
-            <Text>Change Payment Information</Text>
+            <Text style={{fontSize: 32, color: '#b22222'}}>Account</Text>
+    <Text>{'\n\n'}</Text>
+    <Text>------</Text>
+            <Text style={{color: '#b22222'}}>Current Credit Card Number</Text>
+            <Text style={{color: '#b22222'}}>{`Number: ${context.authenticatedUser.creditCard.number}`}</Text>
+            <Text style={{color: '#b22222'}}>{`Zip: ${context.authenticatedUser.creditCard.zip}`}</Text>
+            <Text style={{color: '#b22222'}}>{`CVV: ${context.authenticatedUser.creditCard.cvv}`}</Text>
+            <Text>------</Text>
+            <Text>{'\n\n'}</Text>
+            <Text style={{color: '#b22222'}}>Change Payment Information</Text>
             <Text style={styles.text}>Credit-Card Number</Text>
             <TextInput
             style={styles.textInput}
@@ -50,10 +55,11 @@ export default function Wallet({ context }) {
             onChangeText={text => onCreditCardCVVChange(text)}
             value={creditCardCVV}
             />
+            <Text>{'\n'}</Text>
             <TouchableOpacity 
                 style={styles.button}
                 onPress={change}>
-                <Text>Submit Changes</Text>
+                <Text style={{color: '#f8f8ff', borderColor: '#f8f8ff'}}> Submit Changes</Text>
             </TouchableOpacity>
             <Modal
                 animationType="slide"
@@ -87,6 +93,9 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+      borderWidth: 2,
+    borderColor:'#BB3333',
+    color: '#b22222',
     },
     row: {
       fontSize: 24, 
@@ -110,6 +119,7 @@ const styles = StyleSheet.create({
     },
     text: {
         textTransform: 'capitalize',
+        color: '#b22222',
       },
       textInput: {
         width: 150,
@@ -126,8 +136,11 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         borderRadius:10,
-        backgroundColor:'#a6d1ae',
-        padding: 10
+        backgroundColor:'#b22222',
+        padding: 10,
+        color: '#f8f8ff',
+        borderWidth: 5,
+        
       },
       modalCenteredView: {
         flex: 1,
@@ -164,5 +177,12 @@ const styles = StyleSheet.create({
       modalText: {
         marginBottom: 15,
         textAlign: "center"
+      },
+      textColor: {
+        backgroundColor: '#b22222',
+        color: '#f8f8ff',
+        fontSize: 32,
+        borderColor: '#f8f8ff',
+        borderWidth: 5,
       }
   });

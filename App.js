@@ -75,6 +75,7 @@ function CartScreen({navigation}){
       <Text>{'\n'}</Text>
       <Button title="CheckOut"
               onPress={() => navigation.navigate('CheckOut')} />
+      <Text>{'\n'}</Text>
     </View>
   )
 }
@@ -165,7 +166,7 @@ export default function App({ context }) {
               if(route.name === 'Login'){
                 iconName = focused ? 'ios-body' : 'ios-body';
               } else if (route.name === 'Store Picker'){
-                iconName = focused ? 'ios-map' : 'ios-mapg';
+                iconName = focused ? 'ios-map' : 'ios-map';
               } else if (route.name === 'Cart') {
                 iconName = focused ? 'md-cart' : 'md-cart';
               } else if (route.name === 'Wallet') {
